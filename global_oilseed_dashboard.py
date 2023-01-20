@@ -33,7 +33,11 @@ attribute_names = df["Attribute"].drop_duplicates().sort_values().tolist()
 app.layout = html.Div([
     html.H1("USDA Oilseeds Data Dashboard"),
     html.H2("Created using Plotly Dash"),
-    html.P("This data was pulled from the United States Department of Agriculture Foreign Agriculture Service (USDA FSA) Production, Supply and Distribution (PSD) online database using the custom query to create an Excel document that was then converted to a CSV file. This data can be found at the USAID FSA PSD at https://apps.fas.usda.gov/psdonline/app/index.html#/app/home."),
+    html.P("This data was pulled from the United States Department of Agriculture Foreign Agriculture Service (USDA FSA) Production, \
+        Supply and Distribution (PSD) online database using the custom query to create an Excel document that was then converted to a CSV file. \
+        This data can be found at the "), html.A("USDA PSD website",href = "https://apps.fas.usda.gov/psdonline/app/index.html#/app/home", 
+            target="_blank", 
+            style= {"display":"inline block", "width":"20%", "height":"20%"}),
 
 dcc.Dropdown(id="country_name", options= country_names, multi= False, placeholder = "Select a Country", style= {'width': "40%"}),
 dcc.Checklist(id="oilseed_crops", options=crop_options, value=[crop_options[0]]),
