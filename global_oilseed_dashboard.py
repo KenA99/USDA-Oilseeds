@@ -31,7 +31,9 @@ attribute_names = df["Attribute"].drop_duplicates().sort_values().tolist()
 
 # page layout in HTML
 app.layout = html.Div([
-    html.H1("Web Application Dashboard for USDA Oilseeds using Dash"),
+    html.H1("USDA Oilseeds Data Dashboard"),
+    html.H2("Created using Plotly Dash"),
+    html.P("This data was pulled from the United States Department of Agriculture Foreign Agriculture Service (USDA FSA) Production, Supply and Distribution (PSD) online database using the custom query to create an Excel document that was then converted to a CSV file. This data can be found at the USAID FSA PSD at https://apps.fas.usda.gov/psdonline/app/index.html#/app/home."),
 
 dcc.Dropdown(id="country_name", options= country_names, multi= False, placeholder = "Select a Country", style= {'width': "40%"}),
 dcc.Checklist(id="oilseed_crops", options=crop_options, value=[crop_options[0]]),
@@ -58,6 +60,11 @@ def update_graph(country_select,crop_select, attribute_select):
     fig = px.line(filtered_df, 
                 x="Year", 
                 y= crop_select,
+                labels={
+                    "Year":"Production Year",
+                    "value": "1000 Metric Tons",
+                    "variable":"Oilseed Crop"
+                },
                 title=f"{', '.join(crop_select)} oilseed {attribute_select} in {country_select} from 2012-2022"
                 )
     
