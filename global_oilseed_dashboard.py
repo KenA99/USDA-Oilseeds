@@ -33,18 +33,25 @@ attribute_names = df["Attribute"].drop_duplicates().sort_values().tolist()
 app.layout = html.Div([
     html.H1("USDA Oilseeds Data Dashboard"),
     html.H2("Created using Plotly Dash"),
-    html.P("This data was pulled from the United States Department of Agriculture Foreign Agriculture Service (USDA FSA) Production, \
+    html.P(["This data was pulled from the United States Department of Agriculture Foreign Agriculture Service (USDA FSA) Production, \
         Supply and Distribution (PSD) online database using the custom query to create an Excel document that was then converted to a CSV file. \
-        This data can be found at the "), html.A("USDA PSD website",href = "https://apps.fas.usda.gov/psdonline/app/index.html#/app/home", 
-            target="_blank", 
-            style= {"display":"inline block", "width":"20%", "height":"20%"}),
+        This data can be found at the ", 
+    html.A("USDA FSA PSD",href = "https://apps.fas.usda.gov/psdonline/app/index.html#/app/home", 
+        target="_blank")," website"]),
+    html.P(["The data here shows graphs for the last 10 years for popular oilseed crops throughout the globe offering a visual of how their production has changed\
+        over time using variables from a ", html.A("Supply Distribution Table", href ="https://apps.fas.usda.gov/psdonline/app/index.html#/app/about#G4"), " that shows Supply in the form of beginning stocks, domestic production, and imports; and\
+        Use through domestic consumption, exports, and ending stocks. Stocks can be considered any kind of storage of commodities not being used from\
+        from waiting to be processed to a farmer holding on to a crop for high prices to sell."]),
+    
+    html.Br(),
+    html.Br(),
 
-dcc.Dropdown(id="country_name", options= country_names, multi= False, placeholder = "Select a Country", style= {'width': "40%"}),
-dcc.Checklist(id="oilseed_crops", options=crop_options, value=[crop_options[0]]),
-dcc.RadioItems(id="attribute", options=attribute_names, value= attribute_names[0]),
+    dcc.Dropdown(id="country_name", options= country_names, multi= False, placeholder = "Select a Country", style= {'width': "40%"}),
+    dcc.Checklist(id="oilseed_crops", options=crop_options, value=[crop_options[0]]),
+    dcc.RadioItems(id="attribute", options=attribute_names, value= attribute_names[0]),
 
 
-dcc.Graph(id="oilseed_graph", figure= {})
+    dcc.Graph(id="oilseed_graph", figure= {})
 ])
 
 # connecting the Plotly graphs with the Dash components
@@ -65,7 +72,7 @@ def update_graph(country_select,crop_select, attribute_select):
                 x="Year", 
                 y= crop_select,
                 labels={
-                    "Year":"Production Year",
+                    "Year":"Market Year",
                     "value": "1000 Metric Tons",
                     "variable":"Oilseed Crop"
                 },
